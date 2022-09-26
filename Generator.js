@@ -1,28 +1,32 @@
-import fetch from 'node-fetch';
 
 
-console.log('Hello World!');
-console.info(generate('fe80::dcf6:e5ff:fe65:d99a', 'BJMsT56W9gNPCRn9'));
 
-function generate(ip, password) {
+async function generate() {
     const url = 'https://airsend.cloud/interface/login';
 
+
+
+
+
+    const ip = document.getElementById('ip').value.replace(/ /g, '').replace(/:/g, '%3A');
+    const password = document.getElementById('password').value;
+    const URL = url + '?localip=' + ip + '&password=' + password;
     const params = {
         headers: {
+
             'accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
+
         },
-        body: {
-            'localip': ip,
-            'password': password
-        },
-        method: 'POST'
+
+        method: 'GET'
     };
+    try {
+        const response = await fetch(URL, params);
+        var token = await response.json();
+        token = token['session'];
+    } catch (e) {
+        document.getElementById('token').innerHTML = 'Error: ' + e;
+    }
 
-    var token = fetch(url, params);
-
-
-
-    return token;
+    document.getElementById('token').innerHTML = token;
 }
-
