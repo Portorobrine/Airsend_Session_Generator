@@ -1,12 +1,5 @@
-
-
-
-async function generate() {
+function generate() {
     const url = 'https://airsend.cloud/interface/login';
-
-
-
-
 
     const ip = document.getElementById('ip').value.replace(/ /g, '').replace(/:/g, '%3A');
     const password = document.getElementById('password').value;
@@ -21,8 +14,8 @@ async function generate() {
         method: 'GET'
     };
     try {
-        const response = await fetch(URL, params);
-        var token = await response.json();
+        const response = fetch(URL, params);
+        var token = response.json();
         token = token['session'];
     } catch (e) {
         document.getElementById('token').innerHTML = 'Error: ' + e;
